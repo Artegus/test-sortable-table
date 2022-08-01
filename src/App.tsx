@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import { Table } from './components/Table';
+
 import './App.css';
 
+import { products } from './data';
+import { useState } from 'react';
+import { Product } from './models/Product';
+import { MapperTable } from './components/TableTypes';
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+	const [items, setItems] = useState<Product[]>(products);
+
+	const mapperTable: MapperTable<Product>[] = [
+		{ 
+			label: 'Name', accessor: 'name', 
+			sortable: true, cellClassName: 'table__cell table__cell--text-left',
+			headerClassName: 'table__heading'
+		},
+		{ 
+			label: 'Price', accessor: 'price', 
+			sortable: true, cellClassName: 'table__cell table__cell--text-centered',
+			headerClassName: 'table__heading'
+		}
+	]
+
+	return (
+		<div className="app">
+			<main className='container'>
+				<Table
+					items={items}  
+					setItems={setItems}
+					mapperElements={mapperTable}
+					caption={'List of products'}
+				/>
+			</main>
+		</div>
+	);
 }
 
 export default App;
