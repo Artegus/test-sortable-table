@@ -7,19 +7,19 @@ import { TableProps } from './TableTypes'
 
 export const Table = <T,>({ items, mapperElements, caption, loadMoreOptions }: TableProps<T>) => {
 
-    const { getItems, initialVisibleItems, stepsVisibleItems} = loadMoreOptions;
+    const { getItems, initialVisibleItems, stepsVisibleItems } = loadMoreOptions;
 
-    const { 
-        visibility, 
-        tableData, 
+    const {
+        visibility,
+        tableData,
+        defaultData,
         handleSorting,
         setDefaultData,
-        setTableData, 
-        handleUpdateVisibility, 
+        setTableData,
+        handleUpdateVisibility,
     } = useSortableTable(items, { initialVisibleItems: initialVisibleItems, stepsVisibleItems: stepsVisibleItems });
 
     useEffect(() => {
-        
         function loadMore() {
             getItems()
             .then(items => {
@@ -29,10 +29,10 @@ export const Table = <T,>({ items, mapperElements, caption, loadMoreOptions }: T
             .catch((e) => console.log(e))
         }
         
-        if (loadMoreOptions) {
-            loadMore()
-            return () => {
-            }
+        loadMore()
+        console.log('hey')
+        return () => {
+        
         }
     }, [getItems, loadMoreOptions, setDefaultData, setTableData]);
 
@@ -43,13 +43,13 @@ export const Table = <T,>({ items, mapperElements, caption, loadMoreOptions }: T
                 headers={mapperElements}
                 handleSorting={handleSorting}
             />
-            <TableBody 
-                items={tableData} 
-                mapperTable={mapperElements} 
+            <TableBody
+                items={tableData}
+                mapperTable={mapperElements}
                 visibility={visibility}
             />
-            { visibility < tableData.length ? 
-                <TableFooter 
+            {visibility < defaultData.length ?
+                <TableFooter
                     handleLoadMore={handleUpdateVisibility}
                 /> : null
             }
