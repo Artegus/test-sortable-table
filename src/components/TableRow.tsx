@@ -1,3 +1,4 @@
+import { TableCell } from "./TableCell"
 import { TableRowProps } from "./TableTypes"
 
 export const TableRow = <T,>({
@@ -6,12 +7,15 @@ export const TableRow = <T,>({
 }: TableRowProps<T>) => {
     return (
         <tr>
-            {mapperTable.map(({ accessor, cellClassName, label }, i) => (
-                <td 
-                    key={`${label}${i}`} 
-                    className={`${cellClassName} fade-in`} 
-                >{`${item[accessor] ? item[accessor] : '-'}`}</td>
-            ))}
+            {mapperTable.map(({ accessor, cellClassName, label, parserValue, imageProps }, i) => {
+                return <TableCell
+                    value={item[accessor]}
+                    key={`${label}${i}`}
+                    imageProps={imageProps}
+                    cellClassname={cellClassName}
+                    parser={parserValue}
+                />
+            })}
         </tr>
     )
 }
