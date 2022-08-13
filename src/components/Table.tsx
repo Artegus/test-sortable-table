@@ -1,34 +1,58 @@
 import { useEffect } from 'react'
 import { useSortableTable } from '../hooks/useSortableTable'
-import { getPosts } from '../services/postService'
 import { TableBody } from './TableBody'
 import TableFooter from './TableFooter'
 import { TableHeader } from './TableHeader'
 import { TableProps } from './TableTypes'
 
-export const Table = <T,>({ items, mapperElements, caption, loadMore }: TableProps<T>) => {
-    
-    const { tableData, handleSorting, setTableData} = useSortableTable(items);
+export const Table = <T,>({ items, mapperElements, caption, loadMoreOptions }: TableProps<T>) => {
+
+    const { getItems, initialVisibleItems, stepsVisibleItems} = loadMoreOptions;
+
+    const { 
+        visibility, tableData, 
+        handleSorting,
+        setDefaultData,
+        setTableData, 
+        handleUpdateVisibility, 
+    } = useSortableTable(items, { initialVisibleItems: initialVisibleItems, stepsVisibleItems: stepsVisibleItems });
 
     useEffect(() => {
-        const abortController = new AbortController();
-
-        getPosts(1, abortController.signal)
-            .then((items) => setTableData(items as any))
-            .catch((e) => {
-                console.log(e);
+        
+        function loadMore() {
+            getItems()
+            .then(items => {
+                setDefaultData(items);
+                setTableData(items);
             })
-    }, []);
+            .catch((e) => console.log(e))
+        }
+        
+        if (loadMoreOptions) {
+            loadMore()
+            return () => {
+            }
+        }
+    }, [getItems, loadMoreOptions, setDefaultData, setTableData]);
 
     return (
         <table className='table'>
             <caption className='table__caption'>{caption}</caption>
             <TableHeader
-                headers={mapperElements} 
+                headers={mapperElements}
                 handleSorting={handleSorting}
             />
-            <TableBody items={tableData} mapperTable={mapperElements} />
-            {loadMore ? <TableFooter /> : null}
+            <TableBody 
+                items={tableData} 
+                mapperTable={mapperElements} 
+                visibility={visibility}
+            />
+            {
+                loadMoreOptions ? 
+                <TableFooter 
+                    handleLoadMore={handleUpdateVisibility}
+                /> : null
+            }
         </table>
     )
 }

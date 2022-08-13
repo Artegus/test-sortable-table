@@ -1,12 +1,19 @@
-import React from 'react'
+import { FC } from 'react'
 
-const TableFooter = () => {
+type TableProps = {
+    handleLoadMore: () => void;
+}
+
+const TableFooter: FC<TableProps> = ({
+    handleLoadMore
+}) => {
+
     return (
         <tfoot>
             <tr>
                 <td>
                     <button
-                        onClick={() => console.log('more')}
+                        onClick={handleLoadMore}
                     >load more</button>
                 </td>
             </tr>

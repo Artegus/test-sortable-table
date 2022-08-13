@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react"
 import { IPost } from "../models/Post"
 import { getPosts } from "../services/postService"
 import { Table } from "./Table"
-import { MapperTable } from "./TableTypes"
+import { GetItems, MapperTable } from "./TableTypes"
 
 
-const mapperTable: MapperTable<IPost>[] = [
+const configTable: MapperTable<IPost>[] = [
     {
         label: 'Post id', accessor: 'id',
         sortable: true,
@@ -34,24 +33,18 @@ const mapperTable: MapperTable<IPost>[] = [
 
 export const MainPage = () => {
 
-    /*  const [items, setItems] = useState<IPost[]>([]);
-
-    useEffect(() => {
-        const abortController = new AbortController();
-
-        getPosts(1, abortController.signal)
-            .then((items) => setItems(items))
-            .catch((e) => {
-                console.log(e);
-            })
-    }, []); */
+    const getItems: GetItems<IPost> = () => getPosts(1);
 
     return (
         <main className='container'>
             <Table
                 items={[]}
-                loadMore={true}
-                mapperElements={mapperTable}
+                loadMoreOptions={{ 
+                    initialVisibleItems: 2,
+                    stepsVisibleItems: 2,
+                    getItems: getItems
+                }}
+                mapperElements={configTable}
                 caption={'List of products'}
             />
         </main>
