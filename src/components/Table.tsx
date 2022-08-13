@@ -10,7 +10,8 @@ export const Table = <T,>({ items, mapperElements, caption, loadMoreOptions }: T
     const { getItems, initialVisibleItems, stepsVisibleItems} = loadMoreOptions;
 
     const { 
-        visibility, tableData, 
+        visibility, 
+        tableData, 
         handleSorting,
         setDefaultData,
         setTableData, 
@@ -47,8 +48,7 @@ export const Table = <T,>({ items, mapperElements, caption, loadMoreOptions }: T
                 mapperTable={mapperElements} 
                 visibility={visibility}
             />
-            {
-                loadMoreOptions ? 
+            { visibility < tableData.length ? 
                 <TableFooter 
                     handleLoadMore={handleUpdateVisibility}
                 /> : null
