@@ -2,30 +2,31 @@ import { IPost } from "../models/Post"
 import { getPosts } from "../services/postService"
 import { Table } from "./Table"
 import { GetItems, MapperTable } from "./TableTypes"
+import { TableUsers } from "./TableUsers"
 
 
 const configTable: MapperTable<IPost>[] = [
     {
         label: 'Post id', accessor: 'id',
-        sortable: true,
+        sortable: true, isImage: false,
         cellClassName: 'table__cell table__cell--text-left',
         headerClassName: 'table__heading'
     },
     {
         label: 'User id', accessor: 'userId',
-        sortable: true,
+        sortable: true, isImage: false,
         cellClassName: 'table__cell table__cell--text-centered',
         headerClassName: 'table__heading'
     },
     {
         label: 'Title', accessor: 'title',
-        sortable: false,
+        sortable: false, isImage: false,
         cellClassName: 'table__cell table__cell--text-centered',
         headerClassName: 'table__heading'
     },
     {
         label: 'Body', accessor: 'body',
-        sortable: false,
+        sortable: false, isImage: false,
         cellClassName: 'table__cell table__cell--text-centered',
         headerClassName: 'table__heading'
     }
@@ -37,7 +38,7 @@ export const MainPage = () => {
 
     return (
         <main className='container'>
-            <Table
+            {/* <Table
                 items={[]}
                 loadMoreOptions={{ 
                     initialVisibleItems: 2,
@@ -46,7 +47,9 @@ export const MainPage = () => {
                 }}
                 mapperElements={configTable}
                 caption={'List of products'}
-            />
+            /> */}
+
+            <TableUsers />
         </main>
     )
 }
