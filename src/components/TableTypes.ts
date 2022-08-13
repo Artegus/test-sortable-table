@@ -4,6 +4,13 @@ export type MapperTable<T> = {
 	sortable: boolean;
 	cellClassName: string;
     headerClassName?: string;
+    parserValue?: (value: T[keyof T]) => string;
+    isImage: boolean;
+    imageProps?: React.HTMLAttributes<HTMLImageElement>;
+}
+
+export type CellElement = {
+
 }
 
 export type LoadMoreOptions<T> = {
