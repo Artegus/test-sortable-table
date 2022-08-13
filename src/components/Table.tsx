@@ -1,30 +1,34 @@
-import { sortStringOrNumber } from './helperSort'
+import { useEffect } from 'react'
+import { useSortableTable } from '../hooks/useSortableTable'
+import { getPosts } from '../services/postService'
 import { TableBody } from './TableBody'
+import TableFooter from './TableFooter'
 import { TableHeader } from './TableHeader'
-import { HandleSortingFn, TableProps } from './TableTypes'
+import { TableProps } from './TableTypes'
 
-export const Table = <T,>({ items, mapperElements, caption, setItems }: TableProps<T>) => {
+export const Table = <T,>({ items, mapperElements, caption, loadMore }: TableProps<T>) => {
     
+    const { tableData, handleSorting, setTableData} = useSortableTable(items);
 
-    const handleSorting: HandleSortingFn<T> = (sortField, orderType) => {
-        if (sortField) {
-            const locales = ['es', 'en'];
-            const copyItems = [...items];
-            
-            copyItems.sort(sortStringOrNumber(orderType, locales, sortField));
-            
-            setItems(copyItems);
-        }
-    }
+    useEffect(() => {
+        const abortController = new AbortController();
+
+        getPosts(1, abortController.signal)
+            .then((items) => setTableData(items as any))
+            .catch((e) => {
+                console.log(e);
+            })
+    }, []);
 
     return (
         <table className='table'>
             <caption className='table__caption'>{caption}</caption>
-            <TableHeader 
+            <TableHeader
                 headers={mapperElements} 
                 handleSorting={handleSorting}
             />
-            <TableBody items={items} mapperTable={mapperElements} />
+            <TableBody items={tableData} mapperTable={mapperElements} />
+            {loadMore ? <TableFooter /> : null}
         </table>
     )
 }
