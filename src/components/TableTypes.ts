@@ -6,11 +6,16 @@ export type MapperTable<T> = {
     headerClassName?: string;
 }
 
+export type LoadMoreOptions<T> = {
+    initialVisibleItems: number;
+    stepsVisibleItems: number;
+    getItems: GetItems<T>;
+}
+
 export type TableProps<T> = {
     items: T[];
     mapperElements: MapperTable<T>[];
-    getMoreFn?: GetMoreFn<T>;
-    loadMore: boolean;
+    loadMoreOptions: LoadMoreOptions<T>;
     caption: string;
 }
 
@@ -21,6 +26,7 @@ export type TableHeaderProps<T> = {
 
 export type TableBodyProps<T> = {
     items: T[];
+    visibility: number;
     mapperTable: MapperTable<T>[];
 }
 
@@ -33,4 +39,4 @@ export type OrderType = 'asc' |'desc';
 
 export type HandleSortingFn<T> = (accessor: keyof T, order: OrderType) => void;
 
-export type GetMoreFn<T> = () => Promise<T[]>;
+export type GetItems<T> = () => Promise<T[]>
