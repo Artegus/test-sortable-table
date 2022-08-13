@@ -9,7 +9,7 @@ export const TableRow = <T,>({
             {mapperTable.map(({ accessor, cellClassName, label }, i) => (
                 <td 
                     key={`${label}${i}`} 
-                    className={cellClassName} 
+                    className={`${cellClassName} fade-in`} 
                 >{`${item[accessor] ? item[accessor] : '-'}`}</td>
             ))}
         </tr>
