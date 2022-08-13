@@ -1,4 +1,8 @@
-*, html, body, *::before, *::after {
+*,
+html,
+body,
+*::before,
+*::after {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -28,28 +32,19 @@
 	font-style: italic;
 }
 
-.table__header {
-
-}
+.table__header {}
 
 .table__heading {
 	border-bottom: 1px solid black;
 }
 
-.table__body {
+.table__body {}
 
-}
+.table__row {}
 
-.table__row {
-	
-}
+.table__row-item--text-center {}
 
-.table__row-item--text-center {
-}
-
-.table__cell {
-
-}
+.table__cell {}
 
 .table__cell--text-centered {
 	text-align: center;
@@ -57,4 +52,18 @@
 
 .table__cell--text-left {
 	text-align: left;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+.fade-in {
+	animation: fadeIn 0.5s ease-in;
 }
